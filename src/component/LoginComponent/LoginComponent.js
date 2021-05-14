@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Image, Keyboard, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-
 const LogoComponent = () => {
     return (
         <View>
@@ -14,7 +13,7 @@ const LogoComponent = () => {
     )
 }
 
-const LoginSection = () => {
+const LoginSection = ({navigation}) => {
     return (
         <View style={{
             marginLeft: 20,
@@ -73,6 +72,7 @@ const LoginSection = () => {
                         style={{
                             opacity: 0.7
                         }}
+                        onPress={() => navigation.navigate("MainAppStack")}
                     >
                         <Text>Login</Text>
                     </TouchableOpacity>
@@ -99,7 +99,7 @@ const LoginComponent = ({navigation}) => {
             <View style={{ flex: 1,
                 
             }}>
-                <LoginSection />
+                <LoginSection navigation={navigation}/>
             </View>
             
             <View 

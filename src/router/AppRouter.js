@@ -4,6 +4,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import LoginComponent from '../component/LoginComponent/LoginComponent';
 import SignupScreen from '../component/SignupComponent/SingupScreen';
+import MainAppRouter from './MainAppRouter';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,13 @@ const AppRouter = () => {
                 <Stack.Screen
                     name="SignUp"
                     component={SignupScreen}
+                    options={{
+                        header: () => false
+                    }}
+                />
+                <Stack.Screen
+                    name="MainAppStack"
+                    component={MainAppRouter}
                     options={{
                         header: () => false
                     }}
