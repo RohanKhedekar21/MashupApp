@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import HomePageRoute from './HomePageRoute';
 import { View } from 'react-native';
 import { Text } from 'react-native';
-import playerWidget from '../component/playerWidget/playerWidget';
+import PlayerWidget from '../component/PlayerWidget/PlayerWidget';
 
 const MainAppRouter = () => {
 
@@ -67,7 +67,7 @@ const MainAppRouter = () => {
             {/* <View style={{ position: 'absolute', width: '100%', height: 60, bottom: 60, zIndex: 5, backgroundColor: 'red' }}>
                 <Text>Rohan</Text>
             </View> */}
-            {/* <playerWidget/> */}
+            <PlayerWidget/>
         </>
     )
 }
