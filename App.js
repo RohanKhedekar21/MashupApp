@@ -10,6 +10,8 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
 import InitApp from './src/common/InitApp';
+import { Provider } from 'react-redux';
+import stores from './src/store/reduxStore';
 
 const App = () => {
 
@@ -17,7 +19,9 @@ const App = () => {
   SplashScreen.hide();
 
   return (
-    <InitApp />
+    <Provider store={stores}>
+      <InitApp />
+    </Provider>
   );
 };
 

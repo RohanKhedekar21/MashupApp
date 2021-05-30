@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { registerUser } from './function/registerUser';
 
 
 const LogoComponent = () => {
@@ -14,7 +16,56 @@ const LogoComponent = () => {
     )
 }
 
-const SignupSection = () => {
+const SignupSection = ({navigation}) => {
+    // console.log("navigation",navigation)
+
+    const [textInputs, onChangeText] = useState({});
+    const [errorText, setError] = useState(null);
+
+    const onChangeTextFunction = (name, value) => {
+        let newTextInputs = { ...textInputs, [name]: value };
+        onChangeText(newTextInputs);
+        setError(null);
+    }
+
+    const singupPressed = () => {
+        const { email = null, password = null, confirmPassword = null } = textInputs;
+
+        let emailVerify = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+        if (!email && !password && !confirmPassword) {
+            setError("Please enter email and password")
+        } else if (!email) {
+            setError("Please enter email")
+        } else if (!password) {
+            setError("Please enter password")
+        } else if (!confirmPassword) {
+            setError("Please enter the password again")
+        } else if (emailVerify.test(email) === false) {
+            setError("Please enter valid email")
+        } else if (password.length < 8) {
+            setError("Password must be minimum 8 character")
+        } else if (confirmPassword !== password) {
+            setError("The password you entered do not match.")
+        } else {
+            registerUser(email, confirmPassword, registerUserCallback)
+        }
+    }
+
+    const registerUserCallback = (res) => {
+        console.log("registerUserCallback", res)
+        if(res.data.code === "Email ERROR"){
+            setError("A user already exists with this email address.")
+        }else{
+            navigation.navigate("Otp",{
+                userDetails: {
+                    email: textInputs.email,
+                    password: textInputs.password
+                }
+            })
+        }
+    }
+
     return (
         <View style={{
             marginLeft: 20,
@@ -23,18 +74,21 @@ const SignupSection = () => {
             <View>
                 <TextInput
                     style={styles.textInputStyle}
-                    placeholder="Mobile"
-                    keyboardType="numeric"
+                    placeholder="Email"
+                    keyboardType="email-address"
                     placeholderTextColor="#6e7c7c"
-                    maxLength={10}
-                    textContentType={"telephoneNumber"}
+                    // maxLength={10}
+                    textContentType={"emailAddress"}
                     onSubmitEditing={() => {
                         Keyboard.dismiss;
                     }}
+                    onChangeText={(text) => {
+                        onChangeTextFunction("email", text)
+                    }}
                 />
             </View>
-            
-            <View style={{marginTop: 15}}>
+
+            <View style={{ marginTop: 15 }}>
                 <TextInput
                     style={styles.textInputStyle}
                     placeholder="Password"
@@ -43,10 +97,13 @@ const SignupSection = () => {
                     onSubmitEditing={() => {
                         Keyboard.dismiss;
                     }}
+                    onChangeText={(text) => {
+                        onChangeTextFunction("password", text);
+                    }}
                 />
             </View>
 
-            <View style={{marginTop: 15}}>
+            <View style={{ marginTop: 15 }}>
                 <TextInput
                     style={styles.textInputStyle}
                     placeholder="Confirm Password"
@@ -55,16 +112,30 @@ const SignupSection = () => {
                     onSubmitEditing={() => {
                         Keyboard.dismiss;
                     }}
+                    onChangeText={(text) => {
+                        onChangeTextFunction("confirmPassword", text);
+                    }}
                 />
             </View>
 
-            <View 
+            {
+                errorText ?
+                    <Text style={{
+                        fontSize: 14, color: "#ff0000", marginLeft: 20
+                    }}
+                    >
+                        {errorText}
+                    </Text>
+                    : null
+            }
+
+            <View
                 style={{
                     marginTop: 30,
                     alignItems: 'center'
                 }}
             >
-                <View 
+                <View
                     style={{
                         height: 40,
                         width: '50%',
@@ -79,67 +150,77 @@ const SignupSection = () => {
                         style={{
                             opacity: 0.7
                         }}
+                        onPress={() => {
+                            singupPressed()
+                        }}
                     >
                         <Text>Signup</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            
+
         </View>
     )
 }
 
-const SignupScreen = ({navigation}) => {
+const SignupScreen = ({ navigation }) => {
 
     console.log("Inside SingupScreen")
 
     return (
-        <View style={{ flex: 1, margin: 10 }}>
-            <View style={{
-                flex: 1,
-                justifyContent: 'space-around',
-
-            }}>
-                <LogoComponent />
-            </View>
-            
-            <View style={{ flex: 1 }}>
-                <SignupSection />
-            </View>
-
-            <View 
-                style={{
+        <KeyboardAwareScrollView
+            keyboardShouldPersistTaps={"handled"}
+            contentContainerStyle={{ flexGrow: 1 }}
+            extraHeight={130}
+            bounces={false}
+        >
+            <View style={{ flex: 1, margin: 10 }}>
+                <View style={{
                     flex: 1,
-                    // marginTop: 60,
                     justifyContent: 'space-around',
-                    alignItems: 'center'
-                }}
-            >
+
+                }}>
+                    <LogoComponent />
+                </View>
+
+                <View style={{ flex: 1 }}>
+                    <SignupSection navigation={navigation}/>
+                </View>
+
                 <View
                     style={{
-                        borderBottomColor: "#d1d1d1",
-                        borderBottomWidth: 1,
-                        width: '40%',
+                        flex: 1,
+                        // marginTop: 60,
+                        justifyContent: 'space-around',
+                        alignItems: 'center'
                     }}
                 >
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("Login")}
+                    <View
+                        style={{
+                            borderBottomColor: "#d1d1d1",
+                            borderBottomWidth: 1,
+                            width: '40%',
+                        }}
                     >
-                        <Text 
-                            style={{
-                                color: "#ffc93c",
-                                fontSize: 25,
-                                
-                                textAlign: 'center',
-                            }}
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate("Login")}
                         >
-                            Login
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+                            <Text
+                                style={{
+                                    color: "#ffc93c",
+                                    fontSize: 25,
 
-        </View>
+                                    textAlign: 'center',
+                                }}
+                            >
+                                Login
+                        </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+            </View>
+        </KeyboardAwareScrollView>
     )
 }
 

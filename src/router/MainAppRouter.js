@@ -1,17 +1,16 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import HomeScreen from '../component/Home/HomeScreen';
 import RadioScreen from '../component/Radio/RadioScreen';
 import SettingMain from '../component/Setting/SettingMain';
 import LibraryMainScreen from '../component/YourLibrary/LibraryMainScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HomePageRoute from './HomePageRoute';
-import { View } from 'react-native';
-import { Text } from 'react-native';
 import PlayerWidget from '../component/PlayerWidget/PlayerWidget';
+import { useSelector } from 'react-redux';
 
 const MainAppRouter = () => {
 
+    const redux = useSelector(state => state.player)
     const Tab = createBottomTabNavigator();
 
     return (
@@ -67,7 +66,13 @@ const MainAppRouter = () => {
             {/* <View style={{ position: 'absolute', width: '100%', height: 60, bottom: 60, zIndex: 5, backgroundColor: 'red' }}>
                 <Text>Rohan</Text>
             </View> */}
-            <PlayerWidget/>
+            {
+                redux.track
+                ? 
+                <PlayerWidget/>
+                :
+                null
+            }
         </>
     )
 }

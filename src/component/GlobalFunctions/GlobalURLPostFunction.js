@@ -1,5 +1,5 @@
 import axios from 'axios';
-import urlconfig from '../../../urlconfig.json';
+import { BASE_URL } from '../../envs/development';
 
 // export const GlobalURLPostFunction = 
 //     (url, callback, actualCallBack = null, customObject = null) => {
@@ -14,7 +14,7 @@ import urlconfig from '../../../urlconfig.json';
 //     };
 
 export const GlobalURLPostFunction = function GlobalURLPostFunction(url, doc, callback) {
-    let URL = urlconfig.BASE_URL + url;
+    let URL = BASE_URL + url;
     axios.post(URL, doc).then(function (res) {
         callback(res);
     }).catch(function (e){

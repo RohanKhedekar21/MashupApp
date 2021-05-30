@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch } from 'react-redux';
+import { SELECT_SONGS } from '../actions/actionTypes';
+// import nextSong from '../actions/playerAction';
 import { DATA_URL } from '../envs/development';
 import { getSongsList } from './functions/getSongsList';
 
 const SongDetails = (props) => {
-    console.log("Inside SongDetails", props.route.params);
+    // console.log("Inside SongDetails", props.route.params);
+
+    const reduxSave = useDispatch();
 
     const [state, setState] = useState({
         SongDetails: props.route.params.SongDetails,
@@ -28,7 +33,7 @@ const SongDetails = (props) => {
         })
     }
 
-    console.log("state", state.tracks)
+    console.log("state", state.tracks[0])
 
     const renderItem = ({ item, index }) => {
         return (
@@ -39,10 +44,19 @@ const SongDetails = (props) => {
                     </View>
                 </View> */}
                 <View style={{ flex: 4, backgroundColor: 'lightgreen', justifyContent: 'center', alignItems: 'flex-start', marginLeft: 10 }}>
-                    <Text style={{ fontSize: 20 }}>{item.trackTitle}</Text>
+                    <TouchableOpacity onPress={() => {
+                        reduxSave({type: SELECT_SONGS, payload: {
+                            track: item,
+                            playList: item
+                        }})
+                    }}>
+                        <Text style={{ fontSize: 20 }}>{item.trackTitle}</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1,/* backgroundColor: 'yellow', */justifyContent: 'center', alignItems: 'center' }}>
-                    <Icon name="favorite-border" size={30} />
+                    <Icon name="favorite-border" size={30} onPress={()=>{
+                        
+                    }}/>
                 </View>
             </View>
         )
@@ -62,7 +76,14 @@ const SongDetails = (props) => {
                         />
                     </View>
                     <Text style={{ fontSize: 20, marginTop: 8 }}>{state.SongDetails.Name}</Text>
-                    <TouchableOpacity style={{ marginTop: 5, borderWidth: 1, width: 90, height: 30, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ marginTop: 5, borderWidth: 1, width: 90, height: 30, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}
+                        onPress={()=>{
+                            reduxSave({type: SELECT_SONGS, payload: {
+                                track: state.tracks[0],
+                                playList: state.tracks
+                            }})
+                        }}
+                    >
                         <Text>PLAY</Text>
                     </TouchableOpacity>
                 </View>
