@@ -58,9 +58,9 @@ const AlbumList = ({ navigation }) => {
                 <View style={{ flex: 1 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Albums</Text>
                 </View>
-                <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                {/* <View style={{ flex: 1, alignItems: 'flex-end' }}>
                     <Text>See All</Text>
-                </View>
+                </View> */}
             </View>
             <View style={{ flex: 5 }}>
                 <View style={{ flex: 1 }}>

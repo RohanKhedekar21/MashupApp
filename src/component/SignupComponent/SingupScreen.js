@@ -59,8 +59,9 @@ const SignupSection = ({navigation}) => {
         }else{
             navigation.navigate("Otp",{
                 userDetails: {
-                    email: textInputs.email,
-                    password: textInputs.password
+                    userId: res.userId,
+                    email: res.email,
+                    password: res.password
                 }
             })
         }

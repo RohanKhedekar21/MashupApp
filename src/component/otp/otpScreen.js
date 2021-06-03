@@ -9,7 +9,7 @@ import { setStorage } from '../../utility/localutility';
 import { sentOtpEmail } from './function/sentOtpEamil';
 
 const otpScreen = (props) => {
-    console.log("Inside otpScreen", props);
+    // console.log("Inside otpScreen", props);
 
     const redux = useDispatch();
 
@@ -53,6 +53,7 @@ const otpScreen = (props) => {
             })
         }else{
             let userCredentials = {
+                userId: state.userId,
                 email: state.userEmail,
                 password: state.userPassword
             }

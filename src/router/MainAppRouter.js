@@ -16,6 +16,7 @@ const MainAppRouter = () => {
     return (
         <>
             <Tab.Navigator
+                initialRouteName={"HomeScreen"}
                 tabBarOptions={{
                     style: {
                         height: 60
@@ -23,6 +24,9 @@ const MainAppRouter = () => {
                     labelStyle: {
                         fontSize: 12
                     }
+                }}
+                screenOptions={{
+                    unmountOnBlur: true
                 }}
             >
                 <Tab.Screen
@@ -35,7 +39,7 @@ const MainAppRouter = () => {
                         )
                     })}
                 />
-                <Tab.Screen
+                {/* <Tab.Screen
                     name="Radio"
                     component={RadioScreen}
                     options={() => ({
@@ -43,7 +47,7 @@ const MainAppRouter = () => {
                             <Icon name="radio" size={30} />
                         )
                     })}
-                />
+                /> */}
                 <Tab.Screen
                     name="Your Library"
                     component={LibraryMainScreen}
