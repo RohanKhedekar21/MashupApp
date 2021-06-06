@@ -1,5 +1,6 @@
-
-export const BASE_URL = "http://192.168.1.104";
+export const BASE_URL = "http://ec2-13-233-247-125.ap-south-1.compute.amazonaws.com";
+//development: http://current ip address
+//production: http://ec2-13-233-247-125.ap-south-1.compute.amazonaws.com/
 
 export const port = ":7071/";
 

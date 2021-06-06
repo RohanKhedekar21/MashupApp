@@ -55,7 +55,7 @@ const SongDetails = (props) => {
                         reduxSave({
                             type: SELECT_SONGS, payload: {
                                 track: item,
-                                playList: item
+                                playList: [item]
                             }
                         })
                     }}>
