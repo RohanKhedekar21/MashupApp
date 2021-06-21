@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView } from "react-native";
-import { Button, Image, Keyboard, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { authenticateUser } from "./function/authenticateUser";
 
