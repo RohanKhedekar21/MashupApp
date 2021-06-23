@@ -1,0 +1,84 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react';
+import RadioScreen from '../component/Radio/RadioScreen';
+import SettingMain from '../component/Setting/SettingMain';
+import LibraryMainScreen from '../component/YourLibrary/LibraryMainScreen';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import HomePageRoute from './HomePageRoute';
+import PlayerWidget from '../component/PlayerWidget/PlayerWidget';
+import { useSelector } from 'react-redux';
+
+const MainAppRouter = () => {
+
+    const redux = useSelector(state => state.player)
+    const Tab = createBottomTabNavigator();
+
+    return (
+        <>
+            <Tab.Navigator
+                initialRouteName={"HomeScreen"}
+                tabBarOptions={{
+                    style: {
+                        height: 60
+                    },
+                    labelStyle: {
+                        fontSize: 12
+                    }
+                }}
+                screenOptions={{
+                    unmountOnBlur: true
+                }}
+            >
+                <Tab.Screen
+                    name="HomeScreen"
+                    component={HomePageRoute}
+                    options={() => ({
+                        title: "Home",
+                        tabBarIcon: () => (
+                            <Icon name="home" size={30} />
+                        )
+                    })}
+                />
+                {/* <Tab.Screen
+                    name="Radio"
+                    component={RadioScreen}
+                    options={() => ({
+                        tabBarIcon: () => (
+                            <Icon name="radio" size={30} />
+                        )
+                    })}
+                /> */}
+                <Tab.Screen
+                    name="Your Library"
+                    component={LibraryMainScreen}
+                    options={() => ({
+                        tabBarIcon: () => (
+                            <Icon name="library-music" size={30} />
+                        )
+                    })}
+                />
+                <Tab.Screen
+                    name="Setting"
+                    component={SettingMain}
+                    options={() => ({
+                        tabBarIcon: () => (
+                            <Icon name="settings" size={30} />
+                        )
+                    })}
+                />
+            </Tab.Navigator>
+            {/* <View style={{ position: 'absolute', width: '100%', height: 60, bottom: 60, zIndex: 5, backgroundColor: 'red' }}>
+                <Text>Rohan</Text>
+            </View> */}
+            {
+                redux.track
+                ? 
+                <PlayerWidget/>
+                :
+                null
+            }
+        </>
+    )
+}
+
+export default MainAppRouter;
